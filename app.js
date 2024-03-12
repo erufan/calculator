@@ -14,47 +14,38 @@ const divisionBtn = document.getElementById("division-btn");
 const zeroBtn = document.getElementById("zero-btn");
 const productBtn = document.getElementById("product-btn");
 const answerEl = document.getElementById("answer-el");
-
 let answer = "";
 let numbers = "";
 let numbers2 = "";
-let allNumbers = [];
+let allNumber = [];
 
-let Action = false; // useOFEqual = false  useOfPlus = false
-let useOfNumberOne = false;
+let noAction = true; // useOFEqual = false  useOfAction = false
+
+//core of calculator
+
 function render(number) {
-  if (
-    (Action === false) &
-    (useOFEqual === false) &
-    (useOfNumberOne === false)
-  ) {
+  if ((noAction === true) & (useOFEqual === false)) {
     numbers += number;
     answerEl.textContent = numbers;
-    allNumbers.push(numbers);
-  } else if (
-    (Action === true) &
-    (useOFEqual === false) &
-    (useOfNumberOne === true)
-  ) {
+  } else if ((noAction === false) & (useOFEqual === false)) {
+    useOfAction = false;
     numbers2 += number;
-    allNumbers.push(numbers2);
-    for (let i = 1; i < allNumbers.length; i++) {
-      answerEl.textContent = allNumbers[0] + " + " + allNumbers[i];
-    }
-    useOfPlus = false;
-    Action = true;
-  } else if ((Action === true) & (useOFEqual === true) || Action === false) {
-    useOfPlus = false;
+    let numbers2Ui = "";
+    numbers2Ui = number;
+    answerEl.textContent += numbers2Ui;
+  } else if ((noAction === false) & (useOFEqual === true)) {
+    useOfAction = false;
     useOFEqual = false;
-    Action = false;
+    noAction = true;
     answer = "";
     numbers = "";
     numbers2 = "";
     numbers += number;
-    allNumbers = [];
     answerEl.textContent = numbers;
   }
 }
+
+// related to when u click bottons
 
 oneBtn.addEventListener("click", function () {
   render(1);
@@ -96,23 +87,36 @@ zeroBtn.addEventListener("click", function () {
   render(0);
 });
 
-let useOfPlus = false;
+let useOfAction = false;
 plusBtn.addEventListener("click", function () {
-  if (useOfPlus === false) {
-    useOfPlus = true;
-    Action = true;
-    useOfNumberOne = true;
+  if (numbers2 === "") {
+    allNumber.push(numbers);
+  } else if (numbers === "") {
+    allNumber.push(numbers2);
+  }
+  if (useOfAction === false) {
+    useOfAction = true;
+    noAction = false;
+    numbers2 = "";
+    numbers = "";
+    number = 0;
     answerEl.textContent += " + ";
-    allNumbers.splice(0, numbers.length - 1);
   }
 });
 
 let useOFEqual = false;
 
 equalBtn.addEventListener("click", function () {
-  answerEl.textContent =
-    ` ${numbers} + ${numbers2} = ` + (Number(numbers) + Number(numbers2));
+  if (numbers2 === "") {
+    allNumber.push(numbers);
+  } else if (numbers === "") {
+    allNumber.push(numbers2);
+  }
+  answerEl.textContent += ` = ${allNumber.reduce(
+    (a, b) => Number(a) + Number(b)
+  )}`;
 
+  useOfAction = false;
   useOFEqual = true;
-  allNumbers.splice(1, numbers.length - 1);
+  allNumber = [];
 });
