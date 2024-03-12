@@ -18,6 +18,7 @@ let answer = "";
 let numbers = "";
 let numbers2 = "";
 let allNumber = [];
+let action = "";
 
 let noAction = true; // useOFEqual = false  useOfAction = false
 
@@ -95,12 +96,39 @@ plusBtn.addEventListener("click", function () {
     allNumber.push(numbers2);
   }
   if (useOfAction === false) {
+    if (action === "subtraction") {
+      allNumber.push(allNumber.reduce((a, b) => Number(a) + Number(-b)));
+      allNumber.splice(0, allNumber.length - 1);
+    }
+
     useOfAction = true;
     noAction = false;
     numbers2 = "";
     numbers = "";
     number = 0;
     answerEl.textContent += " + ";
+    action = "addition";
+  }
+});
+minusBtn.addEventListener("click", function () {
+  if (numbers2 === "") {
+    allNumber.push(numbers);
+  } else if (numbers === "") {
+    allNumber.push(numbers2);
+  }
+  if (useOfAction === false) {
+    if (action === "addition") {
+      allNumber.push(allNumber.reduce((a, b) => Number(a) + Number(b)));
+      allNumber.splice(0, allNumber.length - 1);
+    }
+
+    useOfAction = true;
+    noAction = false;
+    numbers2 = "";
+    numbers = "";
+    number = 0;
+    answerEl.textContent += " - ";
+    action = "subtraction";
   }
 });
 
@@ -112,11 +140,18 @@ equalBtn.addEventListener("click", function () {
   } else if (numbers === "") {
     allNumber.push(numbers2);
   }
-  answerEl.textContent += ` = ${allNumber.reduce(
-    (a, b) => Number(a) + Number(b)
-  )}`;
+
+  if (action === "addition") {
+    let addition = allNumber.reduce((a, b) => Number(a) + Number(b));
+    answerEl.textContent += ` = ${addition}`;
+  } else if (action === "subtraction") {
+    let subtraction = allNumber.reduce((a, b) => Number(a) + Number(-b));
+    answerEl.textContent += ` = ${subtraction}`;
+  }
 
   useOfAction = false;
   useOFEqual = true;
   allNumber = [];
+
+  // now you can use minus and plus at same time for more tahn 2 number
 });
