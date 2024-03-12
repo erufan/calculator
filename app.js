@@ -43,6 +43,7 @@ function render(number) {
     numbers2 = "";
     numbers += number;
     answerEl.textContent = numbers;
+    allNumber = [];
   }
 }
 
@@ -90,19 +91,30 @@ zeroBtn.addEventListener("click", function () {
 
 let useOfAction = false;
 plusBtn.addEventListener("click", function () {
-  if (numbers2 === "") {
+  if ((numbers2 === "") & (numbers !== "")) {
     allNumber.push(numbers);
-  } else if (numbers === "") {
+  } else if ((numbers === "") & (numbers2 !== "")) {
     allNumber.push(numbers2);
   }
   if (useOfAction === false) {
     if (action === "subtraction") {
       allNumber.push(allNumber.reduce((a, b) => Number(a) + Number(-b)));
       allNumber.splice(0, allNumber.length - 1);
+    } else if (action === "product") {
+      allNumber.push(allNumber.reduce((a, b) => Number(a) * Number(b)));
+      allNumber.splice(0, allNumber.length - 1);
+    } else if (action === "division") {
+      allNumber.push(allNumber.reduce((a, b) => Number(a) / Number(b)));
+      allNumber.splice(0, allNumber.length - 1);
+    }
+
+    if (useOFEqual === true) {
+      answerEl.textContent = allNumber[0];
     }
 
     useOfAction = true;
     noAction = false;
+    useOFEqual = false;
     numbers2 = "";
     numbers = "";
     number = 0;
@@ -111,19 +123,30 @@ plusBtn.addEventListener("click", function () {
   }
 });
 minusBtn.addEventListener("click", function () {
-  if (numbers2 === "") {
+  if ((numbers2 === "") & (numbers !== "")) {
     allNumber.push(numbers);
-  } else if (numbers === "") {
+  } else if ((numbers === "") & (numbers2 !== "")) {
     allNumber.push(numbers2);
   }
   if (useOfAction === false) {
     if (action === "addition") {
       allNumber.push(allNumber.reduce((a, b) => Number(a) + Number(b)));
       allNumber.splice(0, allNumber.length - 1);
+    } else if (action === "product") {
+      allNumber.push(allNumber.reduce((a, b) => Number(a) * Number(b)));
+      allNumber.splice(0, allNumber.length - 1);
+    } else if (action === "division") {
+      allNumber.push(allNumber.reduce((a, b) => Number(a) / Number(b)));
+      allNumber.splice(0, allNumber.length - 1);
+    }
+
+    if (useOFEqual === true) {
+      answerEl.textContent = allNumber[0];
     }
 
     useOfAction = true;
     noAction = false;
+    useOFEqual = false;
     numbers2 = "";
     numbers = "";
     number = 0;
@@ -133,9 +156,9 @@ minusBtn.addEventListener("click", function () {
 });
 
 productBtn.addEventListener("click", function () {
-  if (numbers2 === "") {
+  if ((numbers2 === "") & (numbers !== "")) {
     allNumber.push(numbers);
-  } else if (numbers === "") {
+  } else if ((numbers === "") & (numbers2 !== "")) {
     allNumber.push(numbers2);
   }
   if (useOfAction === false) {
@@ -150,8 +173,13 @@ productBtn.addEventListener("click", function () {
       allNumber.splice(0, allNumber.length - 1);
     }
 
+    if (useOFEqual === true) {
+      answerEl.textContent = allNumber[0];
+    }
+
     useOfAction = true;
     noAction = false;
+    useOFEqual = false;
     numbers2 = "";
     numbers = "";
     number = 0;
@@ -161,9 +189,9 @@ productBtn.addEventListener("click", function () {
 });
 
 divisionBtn.addEventListener("click", function () {
-  if (numbers2 === "") {
+  if ((numbers2 === "") & (numbers !== "")) {
     allNumber.push(numbers);
-  } else if (numbers === "") {
+  } else if ((numbers === "") & (numbers2 !== "")) {
     allNumber.push(numbers2);
   }
   if (useOfAction === false) {
@@ -178,7 +206,12 @@ divisionBtn.addEventListener("click", function () {
       allNumber.splice(0, allNumber.length - 1);
     }
 
+    if (useOFEqual === true) {
+      answerEl.textContent = allNumber[0];
+    }
+
     useOfAction = true;
+    useOFEqual = false;
     noAction = false;
     numbers2 = "";
     numbers = "";
@@ -191,27 +224,35 @@ divisionBtn.addEventListener("click", function () {
 let useOFEqual = false;
 
 equalBtn.addEventListener("click", function () {
-  if (numbers2 === "") {
+  if ((numbers2 === "") & (numbers !== "")) {
     allNumber.push(numbers);
-  } else if (numbers === "") {
+  } else if ((numbers === "") & (numbers2 !== "")) {
     allNumber.push(numbers2);
   }
 
   if (action === "addition") {
     let addition = allNumber.reduce((a, b) => Number(a) + Number(b));
+    allNumber.push(addition);
+    allNumber.splice(0, allNumber.length - 1);
     answerEl.textContent += ` = ${addition}`;
   } else if (action === "subtraction") {
     let subtraction = allNumber.reduce((a, b) => Number(a) + Number(-b));
+    allNumber.push(subtraction);
+    allNumber.splice(0, allNumber.length - 1);
     answerEl.textContent += ` = ${subtraction}`;
   } else if (action === "product") {
     let product = allNumber.reduce((a, b) => Number(a) * Number(b));
+    allNumber.push(product);
+    allNumber.splice(0, allNumber.length - 1);
     answerEl.textContent += ` = ${product}`;
   } else if (action === "division") {
     let division = allNumber.reduce((a, b) => Number(a) / Number(b));
+    allNumber.push(division);
+    allNumber.splice(0, allNumber.length - 1);
     answerEl.textContent += ` = ${division} `;
   }
 
-  useOfAction = false;
   useOFEqual = true;
-  allNumber = [];
+  numbers = "";
+  numbers2 = "";
 });
