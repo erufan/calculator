@@ -18,23 +18,40 @@ const answerEl = document.getElementById("answer-el");
 let answer = "";
 let numbers = "";
 let numbers2 = "";
+let allNumbers = [];
 
-let noAction = true; // useOFEqual = false  useOfPlus = false
+let Action = false; // useOFEqual = false  useOfPlus = false
+let useOfNumberOne = false;
 function render(number) {
-  if ((noAction === true) & (useOFEqual === false)) {
+  if (
+    (Action === false) &
+    (useOFEqual === false) &
+    (useOfNumberOne === false)
+  ) {
     numbers += number;
     answerEl.textContent = numbers;
-  } else if ((noAction === false) & (useOFEqual === false)) {
+    allNumbers.push(numbers);
+  } else if (
+    (Action === true) &
+    (useOFEqual === false) &
+    (useOfNumberOne === true)
+  ) {
     numbers2 += number;
-    answerEl.textContent = `${numbers} + ${numbers2}`;
-  } else if ((noAction === false) & (useOFEqual === true)) {
+    allNumbers.push(numbers2);
+    for (let i = 1; i < allNumbers.length; i++) {
+      answerEl.textContent = allNumbers[0] + " + " + allNumbers[i];
+    }
+    useOfPlus = false;
+    Action = true;
+  } else if ((Action === true) & (useOFEqual === true) || Action === false) {
     useOfPlus = false;
     useOFEqual = false;
-    noAction = true;
+    Action = false;
     answer = "";
     numbers = "";
     numbers2 = "";
     numbers += number;
+    allNumbers = [];
     answerEl.textContent = numbers;
   }
 }
@@ -83,8 +100,10 @@ let useOfPlus = false;
 plusBtn.addEventListener("click", function () {
   if (useOfPlus === false) {
     useOfPlus = true;
-    noAction = false;
+    Action = true;
+    useOfNumberOne = true;
     answerEl.textContent += " + ";
+    allNumbers.splice(0, numbers.length - 1);
   }
 });
 
@@ -95,4 +114,5 @@ equalBtn.addEventListener("click", function () {
     ` ${numbers} + ${numbers2} = ` + (Number(numbers) + Number(numbers2));
 
   useOFEqual = true;
+  allNumbers.splice(1, numbers.length - 1);
 });
