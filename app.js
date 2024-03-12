@@ -132,6 +132,62 @@ minusBtn.addEventListener("click", function () {
   }
 });
 
+productBtn.addEventListener("click", function () {
+  if (numbers2 === "") {
+    allNumber.push(numbers);
+  } else if (numbers === "") {
+    allNumber.push(numbers2);
+  }
+  if (useOfAction === false) {
+    if (action === "addition") {
+      allNumber.push(allNumber.reduce((a, b) => Number(a) + Number(b)));
+      allNumber.splice(0, allNumber.length - 1);
+    } else if (action === "subtraction") {
+      allNumber.push(allNumber.reduce((a, b) => Number(a) + Number(-b)));
+      allNumber.splice(0, allNumber.length - 1);
+    } else if (action === "division") {
+      allNumber.push(allNumber.reduce((a, b) => Number(a) / Number(b)));
+      allNumber.splice(0, allNumber.length - 1);
+    }
+
+    useOfAction = true;
+    noAction = false;
+    numbers2 = "";
+    numbers = "";
+    number = 0;
+    answerEl.textContent += " × ";
+    action = "product";
+  }
+});
+
+divisionBtn.addEventListener("click", function () {
+  if (numbers2 === "") {
+    allNumber.push(numbers);
+  } else if (numbers === "") {
+    allNumber.push(numbers2);
+  }
+  if (useOfAction === false) {
+    if (action === "addition") {
+      allNumber.push(allNumber.reduce((a, b) => Number(a) + Number(b)));
+      allNumber.splice(0, allNumber.length - 1);
+    } else if (action === "subtraction") {
+      allNumber.push(allNumber.reduce((a, b) => Number(a) + Number(-b)));
+      allNumber.splice(0, allNumber.length - 1);
+    } else if (action === "product") {
+      allNumber.push(allNumber.reduce((a, b) => Number(a) * Number(b)));
+      allNumber.splice(0, allNumber.length - 1);
+    }
+
+    useOfAction = true;
+    noAction = false;
+    numbers2 = "";
+    numbers = "";
+    number = 0;
+    answerEl.textContent += " ÷ ";
+    action = "division";
+  }
+});
+
 let useOFEqual = false;
 
 equalBtn.addEventListener("click", function () {
@@ -147,11 +203,15 @@ equalBtn.addEventListener("click", function () {
   } else if (action === "subtraction") {
     let subtraction = allNumber.reduce((a, b) => Number(a) + Number(-b));
     answerEl.textContent += ` = ${subtraction}`;
+  } else if (action === "product") {
+    let product = allNumber.reduce((a, b) => Number(a) * Number(b));
+    answerEl.textContent += ` = ${product}`;
+  } else if (action === "division") {
+    let division = allNumber.reduce((a, b) => Number(a) / Number(b));
+    answerEl.textContent += ` = ${division} `;
   }
 
   useOfAction = false;
   useOFEqual = true;
   allNumber = [];
-
-  // now you can use minus and plus at same time for more tahn 2 number
 });
