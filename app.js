@@ -1,19 +1,20 @@
 const minusBtn = document.getElementById("minus-btn");
 const equalBtn = document.getElementById("equal-btn");
 const plusBtn = document.getElementById("plus-btn");
-const oneBtn = document.getElementById("one-btn");
-const twoBtn = document.getElementById("two-btn");
-const threeBtn = document.getElementById("three-btn");
-const fourBtn = document.getElementById("four-btn");
-const fiveBtn = document.getElementById("five-btn");
-const sixBtn = document.getElementById("six-btn");
-const sevenBtn = document.getElementById("seven-btn");
-const eightBtn = document.getElementById("eight-btn");
-const nineBtn = document.getElementById("nine-btn");
 const divisionBtn = document.getElementById("division-btn");
-const zeroBtn = document.getElementById("zero-btn");
 const productBtn = document.getElementById("product-btn");
 const answerEl = document.getElementById("answer-el");
+const btn = document.querySelectorAll(".btn");
+
+const pattern = /[0-9]/;
+btn.forEach(
+  (c) =>
+    c.innerHTML.match(pattern) &&
+    c.addEventListener("click", function () {
+      render(Number(c.innerHTML));
+    })
+);
+
 let answer = "";
 let numbers = "";
 let numbers2 = "";
@@ -46,48 +47,6 @@ function render(number) {
     allNumber = [];
   }
 }
-
-// related to when u click bottons
-
-oneBtn.addEventListener("click", function () {
-  render(1);
-});
-
-twoBtn.addEventListener("click", function () {
-  render(2);
-});
-
-threeBtn.addEventListener("click", function () {
-  render(3);
-});
-
-fourBtn.addEventListener("click", function () {
-  render(4);
-});
-
-fiveBtn.addEventListener("click", function () {
-  render(5);
-});
-
-sixBtn.addEventListener("click", function () {
-  render(6);
-});
-
-sevenBtn.addEventListener("click", function () {
-  render(7);
-});
-
-eightBtn.addEventListener("click", function () {
-  render(8);
-});
-
-nineBtn.addEventListener("click", function () {
-  render(9);
-});
-
-zeroBtn.addEventListener("click", function () {
-  render(0);
-});
 
 let useOfAction = false;
 plusBtn.addEventListener("click", function () {
