@@ -10,12 +10,10 @@ const pattern = /[0-9]/;
 let allNumber = [];
 const allUi = [];
 
-btn.forEach(
-  (c) =>
-    c.innerHTML.match(pattern) &&
-    c.addEventListener("click", function () {
-      render(c.value);
-    })
+btn.forEach((c) =>
+  c.addEventListener("click", function () {
+    render(c.value);
+  })
 );
 
 function render(number) {
