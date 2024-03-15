@@ -16,16 +16,34 @@ btn.forEach((c) =>
 
 function render(number) {
   const lastClick = input[input.length - 1];
+
   if (lastClick && !pattern.test(lastClick) && !pattern.test(number)) return;
   if (is.equal && pattern.test(number)) input = [];
+
   input.push(number);
-  answerEl.textContent = input.join("");
+
+  let ui = [...input];
+  ui.map((c) => {
+    let index;
+    if (c == "*") {
+      index = ui.indexOf(c);
+      ui.splice(index, 1, " × ");
+    }
+    if (c == "/") {
+      index = ui.indexOf(c);
+      ui.splice(index, 1, " ÷ ");
+    }
+  });
+
+  answerEl.textContent = ui.join("");
   is.equal = false;
 }
 
 equalBtn.addEventListener("click", function () {
   let answer = eval(input.join(""));
+
   if (input.length > 0 && !is.equal) answerEl.textContent += " = " + answer;
+
   is.equal = true;
   input = [JSON.stringify(answer)];
 });
