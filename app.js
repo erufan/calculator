@@ -24,5 +24,5 @@ function render(number) {
 }
 
 equalBtn.addEventListener("click", function () {
-  answerEl.textContent += eval(allUi.join(""));
+  answerEl.textContent += " = " + eval(allUi.join(""));
 });
