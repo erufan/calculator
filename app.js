@@ -24,6 +24,6 @@ function render(number) {
 
 equalBtn.addEventListener("click", function () {
   let answer = eval(input.join(""));
-  if (!is.equal) answerEl.textContent += " = " + answer;
+  if (input.length > 0 && !is.equal) answerEl.textContent += " = " + answer;
   is.equal = true;
 });
