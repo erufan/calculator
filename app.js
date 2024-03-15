@@ -7,18 +7,20 @@ const answerEl = document.getElementById("answer-el");
 const btn = document.querySelectorAll(".btn");
 
 const pattern = /[0-9]/;
+let allNumber = [];
+const allUi = [];
+
 btn.forEach(
   (c) =>
     c.innerHTML.match(pattern) &&
     c.addEventListener("click", function () {
-      render(Number(c.innerHTML));
+      render(c.value);
     })
 );
 
 let answer = "";
 let numbers = "";
 let numbers2 = "";
-let allNumber = [];
 let action = "";
 
 let noAction = true; // useOFEqual = false  useOfAction = false
@@ -26,26 +28,10 @@ let noAction = true; // useOFEqual = false  useOfAction = false
 //core of calculator
 
 function render(number) {
-  if ((noAction === true) & (useOFEqual === false)) {
-    numbers += number;
-    answerEl.textContent = numbers;
-  } else if ((noAction === false) & (useOFEqual === false)) {
-    useOfAction = false;
-    numbers2 += number;
-    let numbers2Ui = "";
-    numbers2Ui = number;
-    answerEl.textContent += numbers2Ui;
-  } else if ((noAction === false) & (useOFEqual === true)) {
-    useOfAction = false;
-    useOFEqual = false;
-    noAction = true;
-    answer = "";
-    numbers = "";
-    numbers2 = "";
-    numbers += number;
-    answerEl.textContent = numbers;
-    allNumber = [];
-  }
+  const lastClick = allUi[allUi.length - 1];
+  if (lastClick && !pattern.test(lastClick) && !pattern.test(number)) return;
+  allUi.push(number);
+  answerEl.textContent = allUi.join("");
 }
 
 let useOfAction = false;
