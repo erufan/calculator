@@ -1,14 +1,12 @@
-const minusBtn = document.getElementById("minus-btn");
 const equalBtn = document.getElementById("equal-btn");
-const plusBtn = document.getElementById("plus-btn");
-const divisionBtn = document.getElementById("division-btn");
-const productBtn = document.getElementById("product-btn");
 const answerEl = document.getElementById("answer-el");
 const btn = document.querySelectorAll(".btn");
 
 const pattern = /[0-9]/;
-let allNumber = [];
-const allUi = [];
+const input = [];
+let is = {
+  equal: false,
+};
 
 btn.forEach((c) =>
   c.addEventListener("click", function () {
@@ -17,12 +15,15 @@ btn.forEach((c) =>
 );
 
 function render(number) {
-  const lastClick = allUi[allUi.length - 1];
+  const lastClick = input[input.length - 1];
   if (lastClick && !pattern.test(lastClick) && !pattern.test(number)) return;
-  allUi.push(number);
-  answerEl.textContent = allUi.join("");
+  input.push(number);
+  answerEl.textContent = input.join("");
+  is.equal = false;
 }
 
 equalBtn.addEventListener("click", function () {
-  answerEl.textContent += " = " + eval(allUi.join(""));
+  let answer = eval(input.join(""));
+  if (!is.equal) answerEl.textContent += " = " + answer;
+  is.equal = true;
 });
