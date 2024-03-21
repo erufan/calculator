@@ -18,6 +18,7 @@ function render(number) {
   const lastClick = input[input.length - 1];
 
   if (lastClick && !pattern.test(lastClick) && !pattern.test(number)) return;
+  if (!lastClick && (number == "*" || number == "/")) return;
   if (is.equal && pattern.test(number)) input = [];
 
   input.push(number);
