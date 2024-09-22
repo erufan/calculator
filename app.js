@@ -1,6 +1,7 @@
 const equalBtn = document.getElementById("equal-btn");
 const answerEl = document.getElementById("answer-el");
 const btn = document.querySelectorAll(".btn");
+const btnArray = [...btn].map((btn) => btn.value);
 
 const pattern = /[0-9]/;
 let input = [];
@@ -13,6 +14,30 @@ btn.forEach((c) =>
     render(c.value);
   })
 );
+
+document.addEventListener("keydown", function (e) {
+  const index = btnArray.indexOf(e.key);
+  if (index !== -1) {
+    render(btn[index].value);
+    btn[index].classList.add("active");
+  }
+  if (e.key === "Enter") {
+    equalBtn.click();
+    equalBtn.classList.add("active");
+  }
+});
+
+document.addEventListener("keyup", function (e) {
+  const index = btnArray.indexOf(e.key);
+
+  if (e.key === "Enter") {
+    equalBtn.classList.remove("active");
+    return;
+  }
+  if (index !== -1) {
+    btn[index].classList.remove("active");
+  }
+});
 
 function render(number) {
   const lastClick = input[input.length - 1];
@@ -33,6 +58,14 @@ function render(number) {
     if (c == "/") {
       index = ui.indexOf(c);
       ui.splice(index, 1, " ÷ ");
+    }
+    if (c == "+") {
+      index = ui.indexOf(c);
+      ui.splice(index, 1, " + ");
+    }
+    if (c == "-") {
+      index = ui.indexOf(c);
+      ui.splice(index, 1, " - ");
     }
   });
 
