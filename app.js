@@ -21,7 +21,7 @@ document.addEventListener("keydown", function (e) {
     render(btn[index].value);
     btn[index].classList.add("active");
   }
-  if (e.key === "Enter") {
+  if (e.key === "Enter" || e.key === "=") {
     equalBtn.click();
     equalBtn.classList.add("active");
   }
@@ -30,7 +30,7 @@ document.addEventListener("keydown", function (e) {
 document.addEventListener("keyup", function (e) {
   const index = btnArray.indexOf(e.key);
 
-  if (e.key === "Enter") {
+  if (e.key === "Enter" || e.key === "=") {
     equalBtn.classList.remove("active");
     return;
   }
@@ -49,25 +49,14 @@ function render(number) {
   input.push(number);
 
   let ui = [...input];
-  ui.map((c) => {
-    let index;
-    if (c == "*") {
-      index = ui.indexOf(c);
-      ui.splice(index, 1, " × ");
-    }
-    if (c == "/") {
-      index = ui.indexOf(c);
-      ui.splice(index, 1, " ÷ ");
-    }
-    if (c == "+") {
-      index = ui.indexOf(c);
-      ui.splice(index, 1, " + ");
-    }
-    if (c == "-") {
-      index = ui.indexOf(c);
-      ui.splice(index, 1, " - ");
-    }
-  });
+  const replacements = {
+    "*": " × ",
+    "/": " ÷ ",
+    "+": " + ",
+    "-": " - ",
+  };
+
+  ui = ui.map((c) => replacements[c] || c);
 
   answerEl.textContent = ui.join("");
   is.equal = false;
