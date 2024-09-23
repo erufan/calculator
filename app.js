@@ -2,7 +2,6 @@ const equalBtn = document.getElementById("equal-btn");
 const answerEl = document.getElementById("answer-el");
 const btn = document.querySelectorAll(".btn");
 const btnArray = [...btn].map((btn) => btn.value);
-
 const pattern = /[0-9]/;
 let input = [];
 let is = {
@@ -47,7 +46,21 @@ function render(number) {
   if (is.equal && pattern.test(number)) input = [];
 
   input.push(number);
+  arrangeAnswerBox();
 
+  is.equal = false;
+}
+
+equalBtn.addEventListener("click", function () {
+  let answer = eval(input.join(""));
+
+  arrangeAnswerBox(answer);
+
+  is.equal = true;
+  input = [JSON.stringify(answer)];
+});
+
+const arrangeAnswerBox = function (answer = undefined) {
   let ui = [...input];
   const replacements = {
     "*": " × ",
@@ -55,18 +68,14 @@ function render(number) {
     "+": " + ",
     "-": " - ",
   };
+  const shouldDisplayAnswer = input.length > 0 && !is.equal && answer;
+
+  if (shouldDisplayAnswer) {
+    answerEl.textContent += " = " + answer;
+    return;
+  }
 
   ui = ui.map((c) => replacements[c] || c);
 
   answerEl.textContent = ui.join("");
-  is.equal = false;
-}
-
-equalBtn.addEventListener("click", function () {
-  let answer = eval(input.join(""));
-
-  if (input.length > 0 && !is.equal) answerEl.textContent += " = " + answer;
-
-  is.equal = true;
-  input = [JSON.stringify(answer)];
-});
+};
